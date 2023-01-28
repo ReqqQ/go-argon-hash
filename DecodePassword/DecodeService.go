@@ -2,24 +2,24 @@ package DecodePassword
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/matthewhartstonge/argon2"
+	"hashPassword/Consts"
 	HashStruct "hashPassword/GeneratePassword/Structs"
+	"hashPassword/Validation"
 )
 
 func Verify(hashStruct HashStruct.Hash) {
 	decoded, err := argon2.Decode([]byte(hashStruct.ArgonText))
-	if err != nil {
-		log.Fatal("Error on encoded")
-	}
+	Validation.Validate(err, Consts.ErrorOnDecodePass)
 	verified, err := decoded.Verify([]byte(hashStruct.UserText))
-	if err != nil {
-		log.Fatal("Error on verify")
-	}
+	Validation.Validate(err, Consts.ErrorOnVerify)
+	resultVerifiedPass(verified)
+}
+func resultVerifiedPass(verified bool) {
 	if verified {
-		fmt.Println("Password OK")
+		fmt.Println(Consts.PasswordOKInfo)
 	} else {
-		fmt.Println("Password BAD")
+		fmt.Println(Consts.PasswordBADInfo)
 	}
 }

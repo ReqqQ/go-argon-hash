@@ -2,38 +2,34 @@ package GeneratePassword
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/matthewhartstonge/argon2"
 	"github.com/thanhpk/randstr"
+	"hashPassword/Consts"
 	HashStruct "hashPassword/GeneratePassword/Structs"
+	"hashPassword/Validation"
 )
-
-const PassSalt = "CookIeSaltBefore"
-const RandomStringLength = 100
 
 func Generate(hashStruct HashStruct.Hash) {
 	argon := argon2.DefaultConfig()
 	AddSalt(&hashStruct)
 	AddRandomText(&hashStruct)
 	encoded, err := argon.Hash([]byte(hashStruct.UserText), nil)
-
-	if err != nil {
-		log.Fatal("Error on encoding pass")
-	}
-
-	fmt.Println("Your hashed text is: " + string(encoded.Encode()))
+	Validation.Validate(err, Consts.ErrorOnDecodePass)
+	fmt.Println(Consts.PasswordResult + string(encoded.Encode()))
 }
+
 func AddSalt(hashStruct *HashStruct.Hash) *HashStruct.Hash {
 	if hashStruct.CustomSetting.Salt {
-		hashStruct.UserText += PassSalt
+		hashStruct.UserText += Consts.PassSalt
 	}
 	return hashStruct
 }
+
 func AddRandomText(hashStruct *HashStruct.Hash) *HashStruct.Hash {
 	if hashStruct.CustomSetting.SpecialKey {
-		randomString := randstr.Hex(RandomStringLength)
-		fmt.Println("Key to decode: " + randomString)
+		randomString := randstr.Hex(Consts.RandomStringLength)
+		fmt.Println(Consts.PasswordSpecialKeyToDecode + randomString)
 		hashStruct.UserText += randomString
 	}
 

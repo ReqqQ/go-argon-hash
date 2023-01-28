@@ -12,3 +12,8 @@ func ValidateOption(option int, questions map[int]string) {
 		log.Fatal(Consts.OptionNotExist)
 	}
 }
+func Validate(err error, errorName string) {
+	if err != nil {
+		log.Fatal(Consts.ErrorOnVerify)
+	}
+}

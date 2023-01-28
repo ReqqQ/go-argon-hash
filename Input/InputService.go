@@ -2,10 +2,8 @@ package Input
 
 import (
 	"bufio"
-	_ "bufio"
 	"fmt"
 	"os"
-	_ "os"
 
 	"hashPassword/Consts"
 	HashStruct "hashPassword/GeneratePassword/Structs"
@@ -25,6 +23,7 @@ func GetSpecialSettings(option int) HashStruct.CustomOptions {
 
 	return HashStruct.CreateCustomOptionStruct(inputOption)
 }
+
 func GetUserHash(option int, hash HashStruct.Hash) HashStruct.Hash {
 	if option == Consts.OptionVerify {
 		fmt.Println(Consts.TextPrintDbHash)
@@ -40,12 +39,14 @@ func GetUserText() HashStruct.Hash {
 
 	return HashStruct.CreateHashStruct(userText)
 }
+
 func getInput() string {
 	userText := bufio.NewScanner(os.Stdin)
 	userText.Scan()
 
 	return userText.Text()
 }
+
 func GetUserOption() int {
 	for _, question := range Consts.MainQuestions {
 		fmt.Println(question)

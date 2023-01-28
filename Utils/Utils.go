@@ -16,6 +16,7 @@ func InArray(textToSearch string, currentList map[int]string) bool {
 	}
 	return exists
 }
+
 func ParseOptionToInt(userOption string) int {
 	userOptionConverted, err := strconv.Atoi(userOption)
 	if err != nil {
